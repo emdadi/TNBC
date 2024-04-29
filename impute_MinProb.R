@@ -1,4 +1,4 @@
-# for testingass: 
+# for testing: 
 
 library(imputeLCMD)
 
