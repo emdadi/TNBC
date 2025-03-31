@@ -11,9 +11,9 @@ library(ggrepel)
 library(ggpubr)
 library(GSVA)
 
-setwd("C:\\KI\\OneDrive - Karolinska Institutet\\Documents")
 
-proteomics <- read.table('Imputed_Final_File_TMT_136_tumors_merged_second_str_12096_Corrected_HarmonizR.txt')
+
+proteomics <- read.table(./Data/'FINAL_TMT_136_tumors_7083_genes.txt')
 
 proteomics <- proteomics[complete.cases(proteomics), ]
 
