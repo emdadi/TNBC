@@ -1,0 +1,67 @@
+library(ConsensusClusterPlus)
+library(reshape2)
+library(openxlsx)
+library(NMF)
+library(RColorBrewer)
+library(circlize)
+library(readxl)
+library(ComplexHeatmap)
+library(ggplot2)
+library(ggrepel)
+library(ggpubr)
+library(GSVA)
+
+setwd("C:\\KI\\OneDrive - Karolinska Institutet\\Documents")
+
+proteomics <- read.table('Imputed_Final_File_TMT_136_tumors_merged_second_str_12096_Corrected_HarmonizR.txt')
+
+proteomics <- proteomics[complete.cases(proteomics), ]
+
+# Consensus clustering
+results <- ConsensusClusterPlus(d = as.matrix(proteomics),
+                                maxK = 11,  
+                                # pItem=0.8,
+                                pItem=0.8,
+                                pFeature = 1, 
+                                reps = 1000, 
+                                clusterAlg = 'hc',
+                                innerLinkage = 'ward.D2', 
+                                finalLinkage = 'ward.D2', 
+                                distance = "pearson",
+                                # title= paste0('files/LC_Consensus_Cluster'), plot="pdf",  
+                                seed = 123)
+
+
+
+no_cluster <- k
+clust =  results[[no_cluster]]$consensusClass
+names(clust) = colnames(proteomics)
+
+results[[k]]$consensusClass
+
+
+############################################################################################################
+### NMF clustering
+
+proteomics_plus <- proteomics
+proteomics_plus[proteomics_plus < 0] <- 0
+
+proteomics_negative <- proteomics
+proteomics_negative[proteomics_negative > 0] <- 0
+proteomics_negative
+proteomics_negative <- abs(proteomics_negative)
+
+proteomics_integrated <- rbind.data.frame(proteomics_plus, proteomics_negative)
+
+estim.r <- nmf(x = proteomics_integrated, 
+               rank =4,
+               #method = 'lee',
+               method = 'brunet',
+               nrun=100, 
+               seed=1234, 
+               .opt = 'v')
+
+
+plot(estim.r)
+estim.r
+predict(estim.r)
