@@ -65,3 +65,322 @@ estim.r <- nmf(x = proteomics_integrated,
 plot(estim.r)
 estim.r
 predict(estim.r)
+
+
+
+
+
+
+#######################     Heatmap     ###################
+
+ddd_new_136<-read.table(./Data/'FINAL_TMT_136_tumors_7083_genes.txt')
+
+
+ddd_new_136_for_hr<- matrix(unlist(ddd_new_136), ncol = 136)
+
+colnames(ddd_new_136) = c("RNr10","RNr11","RNr114","RNr122","RNr140","RNr154","RNr164","RNr21","RNr212","RNr213","RNr221","RNr228","RNr23","RNr230","RNr234","RNr31","RNr36","RNr41","RNr42","RNr45","RNr81","RNr85","RNr87","RNr88","RNr95","RNr96","RNr238","RNr239","RNr242","RNr251","RNr262","RNr264","RNr266","RNr05","RNr102","RNr106","RNr123","RNr129","RNr132","RNr138","RNr147","RNr157","RNr162","RNr215","RNr219","RNr224","RNr231","RNr232","RNr235","RNr237","RNr27","RNr28","RNr29","RNr55","RNr64","RNr66","RNr68","RNr79","RNr80","RNr86","RNr90","RNr91","RNr97","RNr244","RNr245","RNr246","RNr247","RNr248","RNr249","RNr274","RNr04","RNr07","RNr08","RNr09","RNr107","RNr108","RNr109","RNr112","RNr120","RNr136","RNr145","RNr153","RNr159","RNr214","RNr217","RNr223","RNr229","RNr24","RNr25","RNr32","RNr33","RNr35","RNr44","RNr48","RNr50","RNr56","RNr60","RNr65","RNr67","RNr69","RNr74","RNr77","RNr82","RNr84","RNr94","RNr99","RNr243","RNr252","RNr101","RNr103","RNr104","RNr121","RNr124","RNr128","RNr131","RNr144","RNr163","RNr20","RNr216","RNr218","RNr220","RNr222","RNr225","RNr226","RNr233","RNr30","RNr46","RNr47","RNr62","RNr72","RNr73","RNr83","RNr240","RNr241","RNr263","RNr265")
+
+hr <- hclust(as.dist(1-cor(t(ddd_new_136_for_hr), method="pearson", use = "pairwise.complete.obs")), method="ward.D2")# cluster rows for
+
+
+# enrichment:
+
+ddd_new_136_EN_V2<- matrix(unlist(ddd_new_136), ncol = 136,
+                           dimnames= list(rownames(ddd_new_136)))
+
+Data_file_en <- read_excel("For_enrichment_50_pathways_136_tumors.xlsx")
+
+gs_new_order <- list(Data_file_en$HALLMARK_APICAL_JUNCTION,
+                     Data_file_en$HALLMARK_APICAL_SURFACE,
+                     Data_file_en$HALLMARK_PEROXISOME,
+                     Data_file_en$HALLMARK_ADIPOGENESIS,
+                     Data_file_en$HALLMARK_ANGIOGENESIS,
+                     Data_file_en$HALLMARK_EPITHELIAL_MESENCHYMAL_TRANSITION,
+                     Data_file_en$HALLMARK_MYOGENESIS,
+                     Data_file_en$HALLMARK_SPERMATOGENESIS,
+                     Data_file_en$HALLMARK_PANCREAS_BETA_CELLS,
+                     Data_file_en$HALLMARK_DNA_REPAIR,
+                     Data_file_en$HALLMARK_UV_RESPONSE_DN,
+                     Data_file_en$HALLMARK_UV_RESPONSE_UP,
+                     Data_file_en$HALLMARK_ALLOGRAFT_REJECTION,
+                     Data_file_en$HALLMARK_COAGULATION,
+                     Data_file_en$HALLMARK_COMPLEMENT,
+                     Data_file_en$HALLMARK_INTERFERON_ALPHA_RESPONSE,
+                     Data_file_en$HALLMARK_INTERFERON_GAMMA_RESPONSE,
+                     Data_file_en$HALLMARK_IL6_JAK_STAT3_SIGNALING,
+                     Data_file_en$HALLMARK_INFLAMMATORY_RESPONSE,
+                     Data_file_en$HALLMARK_BILE_ACID_METABOLISM,
+                     Data_file_en$HALLMARK_CHOLESTEROL_HOMEOSTASIS,
+                     Data_file_en$HALLMARK_FATTY_ACID_METABOLISM,
+                     Data_file_en$HALLMARK_GLYCOLYSIS,
+                     Data_file_en$HALLMARK_HEME_METABOLISM,
+                     Data_file_en$HALLMARK_OXIDATIVE_PHOSPHORYLATION,
+                     Data_file_en$HALLMARK_XENOBIOTIC_METABOLISM,
+                     Data_file_en$HALLMARK_APOPTOSIS,
+                     Data_file_en$HALLMARK_HYPOXIA,
+                     Data_file_en$HALLMARK_PROTEIN_SECRETION,
+                     Data_file_en$HALLMARK_UNFOLDED_PROTEIN_RESPONSE,
+                     Data_file_en$HALLMARK_REACTIVE_OXIGEN_SPECIES_PATHWAY,
+                     Data_file_en$HALLMARK_E2F_TARGETS,
+                     Data_file_en$HALLMARK_G2M_CHECKPOINT,
+                     Data_file_en$HALLMARK_MYC_TARGETS_V1,
+                     Data_file_en$HALLMARK_MYC_TARGETS_V2,
+                     Data_file_en$HALLMARK_P53_PATHWAY,
+                     Data_file_en$HALLMARK_MITOTIC_SPINDLE,
+                     Data_file_en$HALLMARK_ANDROGEN_RESPONSE,
+                     Data_file_en$HALLMARK_ESTROGEN_RESPONSE_EARLY,
+                     Data_file_en$HALLMARK_ESTROGEN_RESPONSE_LATE,
+                     Data_file_en$HALLMARK_IL2_STAT5_SIGNALING,
+                     Data_file_en$HALLMARK_KRAS_SIGNALING_UP,
+                     Data_file_en$HALLMARK_KRAS_SIGNALING_DN,
+                     Data_file_en$HALLMARK_MTORC1_SIGNALING,
+                     Data_file_en$HALLMARK_NOTCH_SIGNALING,
+                     Data_file_en$HALLMARK_PI3K_AKT_MTOR_SIGNALING,
+                     Data_file_en$HALLMARK_HEDGEHOG_SIGNALING,
+                     Data_file_en$HALLMARK_TGF_BETA_SIGNALING,
+                     Data_file_en$HALLMARK_TNFA_SIGNALING_VIA_NFKB,
+                     Data_file_en$HALLMARK_WNT_BETA_CATENIN_SIGNALING)
+
+gsva.es <- gsva(ddd_new_136_EN_V2, gs_new_order, verbose=FALSE)
+dim(gsva.es)
+
+######### annotating strategy:
+annot_df_2 <- data.frame(gsva.es)
+
+annot_df_2_2<- t(annot_df_2)
+dim(annot_df_2_2)
+
+colnames(annot_df_2_2) <- c("APICAL_JUNCTION","APICAL_SURFACE","PEROXISOME","ADIPOGENESIS","ANGIOGENESIS","EPITHELIAL_MESENCHYMAL_TRANSITION","MYOGENESIS","SPERMATOGENESIS","PANCREAS_BETA_CELLS","DNA_REPAIR","UV_RESPONSE_DN","UV_RESPONSE_UP","ALLOGRAFT_REJECTION","COAGULATION","COMPLEMENT","INTERFERON_ALPHA_RESPONSE","INTERFERON_GAMMA_RESPONSE","IL6_JAK_STAT3_SIGNALING","INFLAMMATORY_RESPONSE","BILE_ACID_METABOLISM","CHOLESTEROL_HOMEOSTASIS","FATTY_ACID_METABOLISM","GLYCOLYSIS","HEME_METABOLISM","OXIDATIVE_PHOSPHORYLATION","XENOBIOTIC_METABOLISM","APOPTOSIS","HYPOXIA","PROTEIN_SECRETION","UNFOLDED_PROTEIN_RESPONSE","REACTIVE_OXIGEN_SPECIES_PATHWAY","E2F_TARGETS","G2M_CHECKPOINT","MYC_TARGETS_V1","MYC_TARGETS_V2","P53_PATHWAY","MITOTIC_SPINDLE","ANDROGEN_RESPONSE","ESTROGEN_RESPONSE_EARLY","ESTROGEN_RESPONSE_LATE","IL2_STAT5_SIGNALING","KRAS_SIGNALING_UP","KRAS_SIGNALING_DN","MTORC1_SIGNALING","NOTCH_SIGNALING","PI3K_AKT_MTOR_SIGNALING","HEDGEHOG_SIGNALING","TGF_BETA_SIGNALING","TNFA_SIGNALING_VIA_NFKB","WNT_BETA_CATENIN_SIGNALING")
+
+mycols_new <- colorRamp2(breaks = c(-0.2, 0,0.2), 
+                         colors = c("#4575b4", "white", "#d73027")) # quant heatmap - blue, white, red
+#col = list(bar = c("a" = "red", "b" = "green", "c" = "blue")))
+col_2222 = list(APICAL_JUNCTION=mycols_new,APICAL_SURFACE=mycols_new,PEROXISOME=mycols_new,ADIPOGENESIS=mycols_new,ANGIOGENESIS=mycols_new,EPITHELIAL_MESENCHYMAL_TRANSITION=mycols_new,MYOGENESIS=mycols_new,SPERMATOGENESIS=mycols_new,PANCREAS_BETA_CELLS=mycols_new,DNA_REPAIR=mycols_new,UV_RESPONSE_DN=mycols_new,UV_RESPONSE_UP=mycols_new,ALLOGRAFT_REJECTION=mycols_new,COAGULATION=mycols_new,COMPLEMENT=mycols_new,INTERFERON_ALPHA_RESPONSE=mycols_new,INTERFERON_GAMMA_RESPONSE=mycols_new,IL6_JAK_STAT3_SIGNALING=mycols_new,INFLAMMATORY_RESPONSE=mycols_new,BILE_ACID_METABOLISM=mycols_new,CHOLESTEROL_HOMEOSTASIS=mycols_new,FATTY_ACID_METABOLISM=mycols_new,GLYCOLYSIS=mycols_new,HEME_METABOLISM=mycols_new,OXIDATIVE_PHOSPHORYLATION=mycols_new,XENOBIOTIC_METABOLISM=mycols_new,APOPTOSIS=mycols_new,HYPOXIA=mycols_new,PROTEIN_SECRETION=mycols_new,UNFOLDED_PROTEIN_RESPONSE=mycols_new,REACTIVE_OXIGEN_SPECIES_PATHWAY=mycols_new,E2F_TARGETS=mycols_new,G2M_CHECKPOINT=mycols_new,MYC_TARGETS_V1=mycols_new,MYC_TARGETS_V2=mycols_new,P53_PATHWAY=mycols_new,MITOTIC_SPINDLE=mycols_new,ANDROGEN_RESPONSE=mycols_new,ESTROGEN_RESPONSE_EARLY=mycols_new,ESTROGEN_RESPONSE_LATE=mycols_new,IL2_STAT5_SIGNALING=mycols_new,KRAS_SIGNALING_UP=mycols_new,KRAS_SIGNALING_DN=mycols_new,MTORC1_SIGNALING=mycols_new,NOTCH_SIGNALING=mycols_new,PI3K_AKT_MTOR_SIGNALING=mycols_new,HEDGEHOG_SIGNALING=mycols_new,TGF_BETA_SIGNALING=mycols_new,TNFA_SIGNALING_VIA_NFKB=mycols_new,WNT_BETA_CATENIN_SIGNALING=mycols_new,
+                mpg = circlize::colorRamp2(c(17, 25), 
+                                           c("lightblue", "purple")) )
+
+
+split_2=c("Apical_junction","Apical_surface","Peroxisome","Adipogenesis","Angiogenesis","Epithelial_mesenchymal_transition","Myogenesis","Spermatogenesis","Pancreas_BETA_cells","DNA_repair","UV_response_DN","UV_response_UP","Allograft_rejection","Coagulation","Complement","Interferon_alpha_response","Interferon_gamma_response","IL6_JAK_STAT3_signaling","Inflammatory_response","Bile_Acid_metabolism","Cholesterol_homeostasis","Fatty_Acid_metabolism","Glycolysis","Heme_metabolism","Oxidative_phosphorylation","Xenobiotic_metabolism","Apoptosis","Hypoxia","Protein_secretion","Unfolded_protein_response","Reactive_oxigen_species_pathway","E2F_targets","G2M_Checkpoint","MYC_targets_V1","MYC_targets_V2","P53_pathway","Mitotic_spindle","Androgen_response","Estrogen_response_early","Estrogen_response_late","IL2_STAT5_signaling","KRAS_signaling_UP","KRAS_signaling_DN","MTORC1_signaling","NOTCH_signaling","PI3K_AKT_MTOR_signaling","Hedgehog_signaling","TGF_BETA_signaling","TNFA_signaling_via_NFKB","WNT_BETA_Catenin_signaling")
+
+
+
+ha_2 <- HeatmapAnnotation(df = annot_df_2_2, 
+                          which="col", 
+                          col = col_2222,
+                          simple_anno_size = unit(1.5, "mm"),
+                          #annotation_name_gp = gpar(fontsize = 5),
+                          annotation_name_gp = gpar(col = c(rep("black", 3), rep("black", 6), rep("black", 3), rep("black", 7), rep("black", 7), rep("black", 5), rep("black", 6), rep("black", 13)),fontsize = 4.2),
+                          annotation_name_side = "right", 
+                          na_col = "lightgrey",
+                          show_legend=FALSE,
+                          annotation_label = split_2,
+                          # gap = unit(1, "points"),
+                          # space = unit(3, "mm"),
+                          #column_split  = (rep(c("A", "B"), 25)),
+                          #row_split  = split,
+                          height = unit(9, "cm"),
+                          #gap=unit(0.2, "mm")
+                          gap=unit(c(0.1,0.1,1,0.1,0.1,0.1,0.1,0.1,1,0.1,0.1,1,0.1,0.1,0.1,0.1,0.1,0.1,1,0.1,0.1,0.1,0.1,0.1,0.1,1,0.1,0.1,0.1,0.1,1,0.1,0.1,0.1,0.1,0.1,1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1,0.1), "mm"))
+
+############# ha :
+Data_file <- read_excel("Data_file_for_annotation_New_TMT_136_tumors.xlsx")
+annot_df <- data.frame(NMF=Data_file$NMF4_brunet,
+                       
+                       PAM50=Data_file$PPP,
+                       TNBCtype=Data_file$TNBCtype,
+                       TNBC =Data_file$TNBC,
+                       ESR1=as.double(Data_file$ESR1),
+                       AR=as.double(Data_file$AR),
+                       FOXA1 =as.double(Data_file$FOXA1),
+                       ERBB2=as.double(Data_file$ERBB2),
+                       EGFR =as.double(Data_file$EGFR),
+                       MET =as.double(Data_file$MET),
+                       CLDN3=as.double(Data_file$CLDN3),
+                       CDH1 =as.double(Data_file$CDH1),
+                       VIM =as.double(Data_file$VIM),
+                       SOX10=as.double(Data_file$SOX10),
+                       KRT5=as.double(Data_file$KRT5),
+                       KRT14=as.double(Data_file$KRT14),
+                       KRT17=as.double(Data_file$KRT17),
+                       
+                       
+                       
+                       HSP90AB1=as.double(Data_file$HSP90AB1),
+                       HSP90AA1=as.double(Data_file$HSP90AA1),
+                       HSP90B1=as.double(Data_file$HSP90B1),
+                       AKT2=as.double(Data_file$AKT2),
+                       AKT3=as.double(Data_file$AKT3),
+                       IGF1R=as.double(Data_file$IGF1R),
+                       PARP12=as.double(Data_file$PARP12),
+                       PARP10=as.double(Data_file$PARP10),
+                       PARP14=as.double(Data_file$PARP14),
+                       PARP1=as.double(Data_file$PARP1),
+                       PARP9=as.double(Data_file$PARP9),
+                       PARP4=as.double(Data_file$PARP4),
+                       ANG=as.double(Data_file$ANG),
+                       ANGPT1=as.double(Data_file$ANGPT1),
+                       ANGPT2=as.double(Data_file$ANGPT2)
+                       
+)
+
+
+
+col_fun = colorRamp2(c(-1,0,1), c("#4575b4", "white", "#d73027"))
+col_fun_drug_t= colorRamp2(c(-0.7,0,0.7), c("#4575b4", "white", "#d73027"))
+# for Dia_TMT:
+col_fun_new = colorRamp2(c(0.2,0.4,0.8), c("#4575b4", "white", "#d73027"))
+
+# for Ki67:
+col_fun_new_1 = colorRamp2(c(10,40,100), c("#4575b4", "white", "#d73027"))
+col_fun_new_ki= colorRamp2(c(10,40,100), c("white","#fb6a4a", "#a50f15"))
+# ASCAT_TUM_FRAC:
+col_fun_new_2= colorRamp2(c(0.1,0.4,0.99), c("white", "#fb6a4a", "#a50f15"))
+
+col_fun_correlation =colorRamp2(c(0.3,0.6,0.90), c("white", "#fb6a4a", "#a50f15"))
+
+col = list(PAM50 = c("Basal-like" = "#e31a1c", "Luminal_A" = "#1f78b4", 
+                     "Luminal_B" = "#a6cee3", "HER2" = "#fb9a99",
+                     "Normal-like" = "#33a02c", "NA"="lightgrey"),
+           
+           
+         
+          NMF = c("1" = "#44AA99", "2" = "#999933","3"="#CC6677","4"="#882255"),
+          
+           Cons = c("1" = "#882255", "2" = "#DDCC77","3"="#999933","4"="#CC6677","5"="#44AA99"),
+           
+           TNBC = c("Yes" = "black", "No" = "white"),
+           #Cons=c("1" = "green", "2" = "blue","3"="red","4"="yellow","5"="orange"),
+           #,"6"="purple"),
+           #,"5"="orange","6"="purple")
+           ESR1 = col_fun,ERBB2 = col_fun, KRT5 = col_fun, AR = col_fun, CLDN3 = col_fun, VIM = col_fun, CDH1 = col_fun, EGFR = col_fun, MET = col_fun, FOXA1 = col_fun,KRT14 = col_fun,KRT17 = col_fun,SOX10=col_fun,
+           Dia_TMT=col_fun_new,
+           ER=c("0"="white", "<5"="#fc9272" ,"5-10"="#de2d26","NA"="lightgrey"),
+           HER2=c("0+"="white","1+"="#fc9272","2+"="#de2d26","NA"="lightgrey"),
+           Ki67=col_fun_new_ki,
+           TNBCtype=c("M"="#E69F00","LAR"="#56B4E9","BL1"="#009E73","BL2"="#0072B2","IM"="#D55E00","MSL"="#CC79A7","NA"="lightgrey"),
+           ASCAT_F=col_fun_new_2,
+           DIA_TMT=col_fun_correlation,
+           HRDetect=c("high"="#d73027","intermed"="white","low"="#4575b4","NA"="lightgrey"),
+           Grade=c( "2"="#f4a582","3"="#b2182b","NA"="lightgrey"),
+           Age = c("<50" = "#fddbc7", "50-75" = "#ef8a62","75-95" = "#b2182b","NA"="lightgrey"),
+           Chemo= c("Chemo" = "black", "Non-Chemo" = "white","NA"="lightgrey"),
+           
+           HSP90AB1 = col_fun_drug_t,HSP90AA1 = col_fun_drug_t,HSP90B1 = col_fun_drug_t,AKT2 = col_fun_drug_t,
+           AKT3 = col_fun_drug_t,IGF1R = col_fun_drug_t,PARP12 = col_fun_drug_t,PARP10 = col_fun_drug_t,
+           PARP14 = col_fun_drug_t,PARP1 = col_fun_drug_t,PARP9 = col_fun_drug_t,PARP4 = col_fun_drug_t,
+           ANG= col_fun_drug_t,ANGPT1 = col_fun_drug_t,
+           ANGPT2 = col_fun_drug_t,
+           mpg = circlize::colorRamp2(c(17, 25), 
+                                      c("lightblue", "purple")) )
+
+
+
+ha <- HeatmapAnnotation(df = annot_df,
+                        which="col", 
+                        col = col,
+                        simple_anno_size = unit(1.5, "mm"),
+                        annotation_name_gp = gpar(fontsize = 6.2),
+                        annotation_name_side = "left", 
+                        na_col = "lightgrey", 
+                        gap=unit(0.2, "mm"))
+
+
+
+mycols <- colorRamp2(breaks = c(-1, 0,1), 
+                     colors = c("#4575b4", "white", "#d73027"))
+
+Ht_Final<- Heatmap(ddd_new_136_for_hr, 
+               name = "Protein quant (log2)", #title of legend
+               column_title = "Breast tumors",
+               column_title_gp = gpar(fontsize = 8),
+               row_title = "Proteins",
+               cluster_columns= F,
+               #cluster_columns =as.dendrogram(consensushc(estim.r)),
+               #cluster_columns =as.dendrogram(consensushc(estim.r)),
+                #cluster_columns =as.dendrogram(results[[4]]$consensusTree),
+               column_names_gp = gpar(fontsize = 3.1),
+               show_row_names = FALSE,
+               show_column_names = T, 
+               cluster_rows = hr,
+               col = mycols,
+          # Consences:  
+               column_dend_reorder = F,
+               row_dend_reorder = T, 
+               top_annotation = ha,
+               bottom_annotation = ha_2,
+               #right_annotation = ha_R,
+               width = unit(8.7, "cm"),
+               height = unit(3.2, "cm"),
+               # use_raster = FALSE,
+               # raster_resize_mat = TRUE,
+               heatmap_legend_param = list(legend_direction = "vertical")) 
+Ht_Final
+mycols_new <- colorRamp2(breaks = c(-0.2, 0,0.2), 
+                         colors = c("#4575b4", "white", "#d73027")) # quant heatmap - blue, white, red
+
+lgd_gsva = Legend(title = "gsva score", col_fun = mycols_new, 
+)
+
+draw(lgd_gsva, x = unit(0.44, "npc"), y = unit(0.20, "npc"))
+
+
+decorate_annotation("APICAL_SURFACE", {
+  grid.rect(x = 0, width = unit(1.1, "mm"),height= unit(5.3, "mm") , gp = gpar(fill = TRUE),
+            just = "right")
+  grid.text(paste("Cell component   ", collapse = "\n"),x = unit(1, "mm") , just = "right",gp = gpar(fontsize = 9))
+}, slice = 1,
+envir = new.env(parent = parent.frame()))
+
+
+decorate_annotation("EPITHELIAL_MESENCHYMAL_TRANSITION",{
+  grid.rect(x = 0, width = unit(1.1, "mm"),height= unit(9.35, "mm") , gp = gpar(fill = TRUE),
+            hjust =c(1,1) ,vjust=c(0.58,0))
+  grid.text(paste("Development   ", collapse = "\n"),x = unit(1, "mm") , just = "right",gp = gpar(fontsize = 9))
+}, slice = 1,
+envir = new.env(parent = parent.frame()))
+
+decorate_annotation("UV_RESPONSE_DN", {
+  grid.rect(x = 0, width = unit(1.1, "mm"),height= unit(5.3, "mm") , gp = gpar(fill = TRUE),
+            just = "right")
+  grid.text(paste("DNA-damage    ", collapse = "\n"),x = unit(1, "mm") , just = "right",gp = gpar(fontsize = 9))
+}, slice = 1,
+envir = new.env(parent = parent.frame()))
+
+decorate_annotation("INTERFERON_ALPHA_RESPONSE", {
+  grid.rect(x = 0, width = unit(1.1, "mm"),height= unit(11, "mm") , gp = gpar(fill = TRUE),
+            just = "right")
+  grid.text(paste("Immune   ", collapse = "\n"),x = unit(1, "mm") , just = "right",gp = gpar(fontsize = 9))
+}, slice = 1,
+envir = new.env(parent = parent.frame()))
+
+decorate_annotation("GLYCOLYSIS", {
+  grid.rect(x = 0, width = unit(1.1, "mm"),height= unit(11, "mm") , gp = gpar(fill = TRUE),
+            just = "right")
+  grid.text(paste("Metabolic   ", collapse = "\n"),x = unit(1, "mm") , just = "right",gp = gpar(fontsize = 9))
+}, slice = 1,
+envir = new.env(parent = parent.frame()))
+
+decorate_annotation("PROTEIN_SECRETION", {
+  grid.rect(x = 0, width = unit(1.1, "mm"),height= unit(7.8, "mm") , gp = gpar(fill = TRUE),
+            just = "right")
+  grid.text(paste("Pathway   ", collapse = "\n"),x = unit(1, "mm") , just = "right",gp = gpar(fontsize = 9))
+}, slice = 1,
+envir = new.env(parent = parent.frame()))
+
+
+decorate_annotation("MYC_TARGETS_V1",{
+  grid.rect(x = 0, width = unit(1.1, "mm"),height= unit(9.35, "mm") , gp = gpar(fill = TRUE),
+            hjust =c(1,1) ,vjust=c(0.58,0))
+  grid.text(paste("proliferation   ", collapse = "\n"),x = unit(1, "mm") , just = "right",gp = gpar(fontsize = 9))
+}, slice = 1,
+envir = new.env(parent = parent.frame()))
+
+decorate_annotation("MTORC1_SIGNALING", {
+  grid.rect(x = 0, width = unit(1.1, "mm"),height= unit(21, "mm") , gp = gpar(fill = TRUE),
+            just = "right")
+  grid.text(paste("Signaling   ", collapse = "\n"),x = unit(1, "mm") , just = "right",gp = gpar(fontsize = 9))
+}, slice = 1,
+envir = new.env(parent = parent.frame()))
+
+
+
