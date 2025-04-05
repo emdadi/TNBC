@@ -20,13 +20,7 @@ from sklearn.metrics import confusion_matrix
 
 
 def read_inputs(folder):
-     #TCLMF_NMF5_lee_122_TNBC_tumors.txt
-     #TCLMF_NMF5_lee_121_for_RNA_TNBC_tumors.txt
      
-     #after correction : #TCLMF_NMF5_116_1_labels.txt
-                         #TCLMF_NMF4_116_1_labels.txt
-                         #TCLMF_NMF4_115_1_labels_for_RNA.txt
-                         #TCLMF_NMF4_115_1_labels_TMT.txt
     with open(os.path.join(folder, "Labels_train_test.txt"), "r") as raw:
         
         observation_mat = [line.strip("\n").split() for line in raw]
@@ -36,11 +30,7 @@ def read_inputs(folder):
         
         drug_matt = [line.strip("\n").split()[0:] for line in raw]
         
-     #2023_pearson_corr_DIA_train_122_test_1.txt
-     #2023_pearson_corr_RNA_train_121_test_1.txt
-     #2024_pearson_corr_RNA_train_115_test_1.txt
-     #2024_pearson_corr_TMT_train_115_test_1.txt
-     #2024_pearson_corr_DIA_train_116_test_1.txt
+     
     with open(os.path.join(folder, "Pearson_cor_Matrix_train_test.txt"), "r") as raw:
         
         cell_sim_1 = [line.strip("\n").split()[0:] for line in raw]
@@ -56,15 +46,7 @@ def read_inputs(folder):
     
    
     
-    #cell_sim_tissue=np.array(cell_sim_tissue, dtype=np.float64)
     
-    #train:
-    #cell_lines_sim = ((4* cell_sim_1) +(1*cell_sim_tissue)) / (5)
-    
-    
-    # test:
-    #cell_lines_sim_2=((4* cell_sim_1) +(1*cell_sim_tissue)) / (5)
-        
     
     return observation_mat, cell_sim_1,cell_sim_1,drug_mat_main
 
@@ -199,8 +181,7 @@ class LMF:
     def laplacian_matrix(self, S):
         x = np.sum(S, axis=0)
         y = np.sum(S, axis=1)
-       # print("ggggg",x)
-       # print("vvvvvvvv",y)
+       
         L = 0.5*(np.diag(x+y) - (S+S.T))  # neighborhood regularization matrix
         return L
 
