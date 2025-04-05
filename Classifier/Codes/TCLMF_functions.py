@@ -28,7 +28,7 @@ def read_inputs(folder):
     with open(os.path.join(folder, "similarity_clusters.txt"), "r") as raw:
        # raw.next()
         
-        drug_matt = [line.strip("\n").split()[0:] for line in raw]
+        C_matt = [line.strip("\n").split()[0:] for line in raw]
         
      
     with open(os.path.join(folder, "Pearson_cor_Matrix_train_test.txt"), "r") as raw:
@@ -41,7 +41,7 @@ def read_inputs(folder):
  
     observation_mat = np.array(observation_mat, dtype=np.float64)    
     cell_sim_1 = np.array(cell_sim_1, dtype=np.float64)     
-    drug_mat=np.array(drug_matt, dtype=np.float64) 
+    drug_mat=np.array(C_matt, dtype=np.float64) 
     drug_mat_main=(drug_mat)
     
    
