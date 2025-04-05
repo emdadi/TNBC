@@ -55,7 +55,7 @@ y = np.tile(y, len(test_index))
 model.fix_model(train_location_mat, train_location_mat,C_Mat, proteins_sim,proteins_sim_2, seed)
     
 scores = np.reshape(model.predict_scores(zip(x, y)), true_result.shape)
-#pred_Ic50_values=np.reshape(model.predict_scores_IC50(zip(x, y)), true_result.shape)
+
    
 print('probability',(scores[0]))
-#print('Ic50_values',(pred_Ic50_values[0]))
+
