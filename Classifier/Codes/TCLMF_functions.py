@@ -155,9 +155,9 @@ class LMF:
         loglik -= 0.5 * self.alpha * np.sum(np.diag((np.dot(self.U.T, self.PL)).dot(self.U)))+0.5 * self.beta * np.sum(np.diag((np.dot(self.V.T, self.DL)).dot(self.V)))
         return loglik
 
-    def construct_neighborhood(self, prots_sim,proteins_sim_2,drugMat):
-        #self.dsMat = drugMat - np.diag(np.diag(drugMat))
-        self.dsMat = np.array(drugMat)
+    def construct_neighborhood(self, prots_sim,proteins_sim_2,C_Mat):
+        #self.dsMat = C_Mat - np.diag(np.diag(C_Mat))
+        self.dsMat = np.array(C_Mat)
         self.PSMat = prots_sim - np.diag(np.diag(prots_sim))
         self.PSMat_2 = proteins_sim_2 - np.diag(np.diag(proteins_sim_2))
         if self.K1 > 0:
@@ -195,7 +195,7 @@ class LMF:
            # print(len(X[4]))
         return X
 
-    def fix_model(self, W, intMat,drugMat, cells_sim,cell_lines_sim_2, seed=None):
+    def fix_model(self, W, intMat,C_Mat, cells_sim,cell_lines_sim_2, seed=None):
         
         
         
@@ -205,7 +205,7 @@ class LMF:
         self.intMat1 = (self.c-1)*intMat * W + self.ones
         x, y = np.where(self.intMat > 0)
         self.train_cells, self.train_locs = set(x.tolist()), set(y.tolist())
-        self.construct_neighborhood(cells_sim,cell_lines_sim_2,drugMat)
+        self.construct_neighborhood(cells_sim,cell_lines_sim_2,C_Mat)
         self.AGD_optimization(seed)
 
 
