@@ -41,14 +41,14 @@ def read_inputs(folder):
  
     observation_mat = np.array(observation_mat, dtype=np.float64)    
     cell_sim_1 = np.array(cell_sim_1, dtype=np.float64)     
-    drug_mat=np.array(C_matt, dtype=np.float64) 
-    drug_mat_main=(drug_mat)
+    C_mat=np.array(C_matt, dtype=np.float64) 
+    C_mat_main=(C_mat)
     
    
     
     
     
-    return observation_mat, cell_sim_1,cell_sim_1,drug_mat_main
+    return observation_mat, cell_sim_1,cell_sim_1,C_mat_main
 
 
 def score_to_exact_rank(s):
