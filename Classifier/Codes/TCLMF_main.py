@@ -18,7 +18,7 @@ from TCLMF_functions import LMF
 
 data_folder = os.path.join(os.path.pardir, 'Datasets') 
 
-observation_mat, proteins_sim,proteins_sim_2,drugMat=read_inputs(data_folder) 
+observation_mat, proteins_sim,proteins_sim_2,C_Mat=read_inputs(data_folder) 
  
 seed = [80162,45929]
 
@@ -52,7 +52,7 @@ y = np.arange(len(observation_mat[0]))
   
 y = np.tile(y, len(test_index))
   
-model.fix_model(train_location_mat, train_location_mat,drugMat, proteins_sim,proteins_sim_2, seed)
+model.fix_model(train_location_mat, train_location_mat,C_Mat, proteins_sim,proteins_sim_2, seed)
     
 scores = np.reshape(model.predict_scores(zip(x, y)), true_result.shape)
 #pred_Ic50_values=np.reshape(model.predict_scores_IC50(zip(x, y)), true_result.shape)
