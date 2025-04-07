@@ -1,1 +1,4 @@
+The main script for running the classifier is TCLMF_main.py.
+Before execution, you need to prepare the input file Pearson_cor_Matrix_train_test.txt, which contains the Pearson correlation matrix for n samples — where n - 1 are training samples and 1 is the test sample.
 
+Additionally, the file Labels_train_test.txt should be provided, containing the labels for the training samples. The last row in this file corresponds to the test sample, and its values should be set to zero.
