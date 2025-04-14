@@ -1,10 +1,12 @@
 library(ggplot2)
 library(ggprism)
 
-Data_file_1 <- read_excel("C1_76_genes.xlsx")
-Data_file_2 <- read_excel("C2_75_genes.xlsx")
-Data_file_3 <- read_excel("C3_180_genes.xlsx")
-Data_file_4 <- read_excel("C4_105_genes.xlsx")
+
+
+Data_file_1 <- read_excel("./Data/C1_76_genes.xlsx")
+Data_file_2 <- read_excel("./Data/C2_75_genes.xlsx")
+Data_file_3 <- read_excel("./Data/C3_180_genes.xlsx")
+Data_file_4 <- read_excel("./Data/C4_105_genes.xlsx")
 
 
 dddf_1 <- data.frame(cbind(A=Data_file_1$q_value,
