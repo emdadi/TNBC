@@ -1,1 +1,134 @@
+library(ggplot2)
+library(ggprism)
+
+Data_file_1 <- read_excel("C1_76_genes.xlsx")
+Data_file_2 <- read_excel("C2_75_genes.xlsx")
+Data_file_3 <- read_excel("C3_180_genes.xlsx")
+Data_file_4 <- read_excel("C4_105_genes.xlsx")
+
+
+dddf_1 <- data.frame(cbind(A=Data_file_1$q_value,
+                           B=Data_file_1$logFC,C=Data_file_1$C1,
+                           D=as.integer(Data_file_1$Type),E=as.integer(Data_file_1$FDA_approved),
+                           FF=as.integer(Data_file_1$Sshape)))
+dddf_2 <- data.frame(cbind(A_2=Data_file_2$q_value,
+                           B_2=Data_file_2$logFC,C_2=Data_file_2$C2 ,
+                           D_2=as.integer(Data_file_2$Type),E_2=as.integer(Data_file_2$FDA_approved),
+                           FF_2=as.integer(Data_file_2$Sshape)))
+dddf_3 <- data.frame(cbind(A=Data_file_3$q_value,
+                           B=Data_file_3$logFC,C=Data_file_3$C3,
+                           D=as.integer(Data_file_3$Type),E=as.integer(Data_file_3$FDA_approved),
+                           FF=as.integer(Data_file_3$Sshape)))
+dddf_4 <- data.frame(cbind(A=Data_file_4$q_value,
+                           B=Data_file_4$logFC,C=Data_file_4$C4,
+                           D=as.integer(Data_file_4$Type),E=as.integer(Data_file_4$FDA_approved),
+                           FF=as.integer(Data_file_4$Sshape)))
+
+
+
+label_1<-c("CANT1","IDH1","MMUT","DEPTOR","COL1A1","FOXA1","AR","GOLGA5","MAOA","GNA11","CPT2","SFRP4","KCNMA1","NUMB","P2RX4","AKR1C2","CREB3L1","PDGFRB","CKB","S100A7","QPRT","SLC12A4","PRKAB2","ARHGEF12","MAPT","CTNNA2","ANXA2","FABP7","NNMT","PRKD1","INPP4B","CACNA2D2","TUBB4B","COMT","ITGAV","KTN1","COL3A1","BLVRB","GUCY1A2","ORM2","ACP3","ACSL3","ETFDH","AKT1","OMD","PLIN3","GSS","HDAC11","GGPS1","CRB3","ALAD","SMO","TRIP11","MOCS2","IDH2","ATP2B1","MUC1","ANXA4","WWC1","LLGL2","ARHGAP35","MB","SFRP2","HPD","DPP4","GSR","GAA","ORM1","ABAT","SHTN1","ECHS1","NBEA","CDH11","RASGRF2","ARRDC1","CNTN1")
+label_2<-c("ACTN1","SERPINE1","FNTB","F13A1","CSF1R","PDGFRA","PLG","F12","F13B","GNAQ","F9","HBB","COL1A1","F11","PROS1","ALB","PTEN","EIF4EBP1","AOC3","IGHG4","BCHE","C3","IRS1","DKK3","KLKB1","IGHG2","PDGFRB","F2R","ITGA2B","SERPINC1","ADH1C","CACNA2D1","TTR","SERPIND1","CACNB3","C1S","MRAS","CACNA1H","F10","F5","CA1","SHBG","PRRX1","COL3A1","FHL1","ORM2","CPB2","PTGS1","CA3","IFNAR1","CAT","KRT2","DCHS1","ADH1B","VWF","PROC","DTX3","ANK1","APOC3","HMCN1","RASA3","C5","CRTC1","F2","MAML2","ERG","VDR","PAFAH1B2","ORM1","TNC","PTGIS","EBF1","CRBN","IL6ST","RAMP2")
+label_3<-c("XPO1","DAXX","SFPQ","EP300","ERF","FUBP1","MED12","NSD2","CDK2","BAZ1A","NNT","DHFR","ABCC1","SRSF3","NFIB","TLE1","SNW1","E2F3","FANCD2","ERC1","SQLE","MLLT11","HSP90AB1","CHD4","RANBP2","KNSTRN","POLG","CUL1","TRIM27","TYMS","PRCC","TCF3","SETDB1","TOP2A","PHF6","PARP2","KIF5B","FEN1","SMAD4","IGF1R","HDAC1","BCL10","NUP98","PCM1","CNBP","HMMR","RAD21","DNMT3A","SET","KDM5C","LATS1","TCF7L2","AFDN","BAP1","NACA","REL","RRM1","TRIM33","CHD2","FADS1","RPL5","ARID2","CHD8","SUZ12","POLA1","ZNF384","ZCCHC8","ATRX","BUB1B","AFF4","MLH1","CDK4","RXRB","ATP2C1","RHEB","WRN","HPRT1","WNK2","AMER1","MGA","MYC","UBR5","BCR","FH","MEN1","CRNKL1","PBRM1","CHEK2","CTBP2","TFRC","BLM","TUBB","CDC73","NCOR2","POLE","BCORL1","BRD4","SMARCD1","ATF1","CDK12","CLIP1","DDX10","PSIP1","STAG2","ABL2","SF3B1","PRPF40B","DGCR8","SMC1A","NCOR1","SMARCE1","NUMA1","BCL11A","EPCAM","KAT7","DDX5","LARP4B","EEF2","TOP1","MLXIP","BRIP1","POLE4","GART","HNRNPA2B1","CTCF","DNAJB1","RPL10","ETNK1","ZMYM3","TCEA1","CNOT3","DDX6","ETV6","EED","TPR","MSH6","PMS1","ZMYM2","SMARCA4","ARID1A","EZH2","GMPS","SPEN","MSH2","FUS","TRIM24","TRRAP","POLR2A","DNMT1","KDM5A","RPS6","CXCR4","NUP214","POLE3","BCL7A","DEK","SCRIB","SMARCB1","FIP1L1","SAP30","LRP6","PARP1","HDAC2","RASAL2","RBM10","POLD1","EIF3E","STAT3","LSM14A","LDHB","NONO","NAB2","RPL3","HSP90AA1","RBM15","BRD3","ASXL2","GAPDH","TOP2B","YWHAE")
+label_4<-c("CD3D","KCNA3","CD74","TNFRSF17","TMSB4X","FCGR1A","FAS","SOAT1","ELL","VAV1","TYMP","FCER1G","RNF213","NR3C1","MS4A1","PDCD1LG2","CBL","RAPGEF1","PTPN6","CD247","LCK","STK4","PSMB9","B2M","CD4","IKZF3","CNTRL","EZR","TAOK3","ITGAL","MYD88","LYN","WAS","PIK3CG","PSMB2","MAFB","PTAFR","LCP1","CD2","FNBP1","SYK","PPP6C","ALOX5","TPM3","PRKCD","PRDM1","CSF2RA","RPS6KA3","HLA-A","JAK2","ATP6V1C1","RHOA","FCGR2A","NFKB1","CD3G","SLC8A1","MSN","DCK","ARHGAP26","PSMB10","RASGRP2","RASAL3","EPS15","PRF1","EML4","DTX3L","CBFB","BTK","TCL1A","ITGA4","PSMB1","DPYD","PTPRC","CARD11","ITGAX","PRKCQ","ATM","TUBG1","JAK3","TLE3","FLI1","RASA2","CD3E","CASP8","IKZF1","ICAM1","GRB2","SHOC2","MALT1","ADA","PRKCB","CYLD","PSMB8","MYO5A","PIK3CD","TNFAIP3","IRF4","NFATC2","NFKB2","CD274","TLR7","ITGB7","PIK3R1","ATP6V1B2","MAX")
+base_1<-ggplot( data = dddf_1, aes( x=B, y=-log(A,10), 
+                                    size=C, color="#44AA99"))+ 
+  #ggtitle("Cancer and Driver Related Proteins(CDRPs) quant outlier analysis ")+
+  geom_point(data = dddf_1, aes(shape=as.factor(FF)), color="#44AA99")+ 
+  scale_size(range = c(2,5) )+ 
+  geom_text_repel( aes(label=label_1), color="#44AA99")+ 
+  theme(legend.position = "none")+
+  xlab(expression("Log2 (FC) for C1-vs-rest")) + 
+  ylab(expression("-Log10 (q-value) for C1-vs-rest"))+
+  scale_shape_manual(values = c(16,1,0,9,5),labels=c("OG_FDA","OG","TSG","FDA","Unclear"))
+q_1<-base_1 + 
+  # scale_colour_manual(values = c("#999933"),labels = NULL)+
+  scale_fill_prism("floral") + 
+  guides(y = "prism_offset_minor") + 
+  theme_prism(base_size = 6)+
+  theme(legend.position = "none")
+base_2<-ggplot( data = dddf_2, aes( x=B_2, y=-log(A_2,10), 
+                                    size=C_2, color="#999933"))+
+  geom_point(data = dddf_2, aes(shape=as.factor(FF_2)), color="#999933")+ 
+  ggtitle("Cancer and Driver Related Proteins(CDRPs) quant outlier analysis ")+
+  scale_size(range = c(2,5) )+ 
+  geom_text_repel( aes(label=label_2), color="#999933")+ 
+  theme(legend.position = "none")+
+  xlab(expression("Log2 (FC) for C2-vs-rest")) + 
+  ylab(expression("-Log10 (q-value) for C2-vs-rest"))+
+  scale_shape_manual(values = c(16,1,0,9,5),labels=c("OG_FDA","OG","TSG","FDA","Unclear"))
+
+q_2<-base_2 + 
+  #scale_colour_manual(values = c("#CC6677"),labels = "Cluster2")+
+  scale_fill_prism("floral") + 
+  guides(y = "prism_offset_minor") + 
+  theme_prism(base_size = 6)+ 
+  theme(legend.position = "none")
+base_3<-ggplot( data = dddf_3, aes( x=B, y=-log(A,10), 
+                                    size=C, colour="#CC6677"))+
+  geom_point(data = dddf_3, aes(shape=as.factor(FF)),color='#CC6677')+ 
+  #ggtitle("Cancer and Driver Related Proteins(CDRPs) quant outlier analysis ")+
+  scale_size(range = c(2,5) )+ 
+  geom_text_repel( aes(label=label_3),color='#CC6677')+ 
+  theme(legend.position = "none")+
+  xlab(expression("Log2 (FC) for C3-vs-rest")) + 
+  ylab(expression("-Log10 (q-value) for C3-vs-rest"))+
+  scale_shape_manual(values = c(16,15,17,1,0,2,9,5),labels=c("OG_FDA","TSG_FDA","OG/TSG_FDA","OG","TSG","OG/TSG","FDA","Unclear"))
+
+q_3<-base_3 + 
+  
+  
+  scale_fill_prism("floral") + 
+  guides(y = "prism_offset_minor") + 
+  theme_prism(base_size = 6) + 
+  theme(legend.position = "none")
+
+base_4<-ggplot( data = dddf_4, aes( x=B, y=-log(A,10), 
+                                    size=C, color="#882255"))+
+  geom_point(data = dddf_4, aes(shape=as.factor(FF)), color="#882255")+
+  # ggtitle("Cancer and Driver Related Proteins(CDRPs) quant outlier analysis ")+
+  scale_size(range = c(2,5) )+ 
+  geom_text_repel( aes(label=label_4), color="#882255")+ 
+  theme(legend.position = "none")+
+  xlab(expression("Log2 (FC) for C4-vs-rest")) + 
+  ylab(expression("-Log10 (q-value) for C4-vs-rest"))+
+  scale_shape_manual(values = c(16,15,17,1,0,2,9,5),labels=c("OG_FDA","TSG_FDA","OG/TSG_FDA","OG","TSG","OG/TSG","FDA","Unclear"))
+
+q_4<-base_4 + 
+  # scale_colour_manual(values = c("#44AA99"),labels = "Cluster4")+
+  scale_fill_prism("floral") + 
+  guides(y = "prism_offset_minor") + 
+  theme_prism(base_size = 6)+ 
+  theme(legend.position = "none")
+
+
+# just for legend:
+base_3_2<-ggplot( data = dddf_3, aes( x=B, y=-log(A,10), 
+                                      size=C, colour="black"))+
+  geom_point(data = dddf_3, aes(shape=as.factor(FF)),color='black')+ 
+  #ggtitle("Cancer and Driver Related Proteins(CDRPs) quant outlier analysis ")+
+  scale_size(range = c(2,5) )+ 
+  geom_text_repel( aes(label=label_3),color='black',size=4)+ 
+  theme(legend.position = "none")+
+  #xlab(expression("Log2 (FC) for C3-vs-rest")) + 
+  # ylab(expression("-Log10 (q-value) for C3-vs-rest"))+
+  scale_shape_manual(values = c(16,15,17,1,0,2,9,5),labels=c("OG_FDA","TSG_FDA","OG/TSG_FDA","OG","TSG","OG/TSG","FDA","Unclear"))
+
+q_3_2<-base_3_2 + 
+  
+  
+  scale_fill_prism("floral") + 
+  guides(y = "prism_offset_minor") + 
+  theme_prism(base_size = 6) 
+
+
+ggarrange(q_1, q_2,q_3,q_4)
+
+ggarrange(q_1, q_2,q_3,q_4,common.legend = TRUE,legend.grob=get_legend(q_3_2), legend = "top")
+#Final version :
+lg<-get_legend(q_3_2)
+ggarrange(q_1, q_2,q_3,q_4,lg)
+
+#Final version :
+lg<-get_legend(q_3_2)
+ggarrange(q_1, q_2,lg,q_3,q_4)
 
